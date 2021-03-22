@@ -16,24 +16,22 @@ public class StatService {
         return totalSumCalculate(monthlySales) / monthlySales.length;
     }
 
-    // Рассчитывает последний номер месяца с максимальной суммой продажи (вариант алгоритма - 1)
-    public int findLastMaxSaleMonth(int[] monthlySales) {
-        //  Вычисляется максимальное значение в массиве
-        int maxValue = monthlySales[0];
-        for (int saleAmount : monthlySales) {
-            if (saleAmount > maxValue)
-                maxValue = saleAmount;
+    // Рассчитывает последний номер месяца с максимальной суммой продажи
+     public int findLastMaxSaleMonth(int[] monthlySales) {
+            int maxValue = monthlySales[0];
+            int i = 0;
+            int maxSaleMonth = 0;
+            for (int saleAmount : monthlySales) {
+                i++;
+                if (maxValue <= saleAmount) {
+                    maxValue = saleAmount;
+                    maxSaleMonth = i;
+                }
+            }
+            return maxSaleMonth;
         }
-        //  Вычисляется номер индекса массива с последним максимальным значением
-        int maxSaleMont = 0;
-        for (int i = 0; i < monthlySales.length; i++) {
-            if (monthlySales[i] == maxValue)
-                maxSaleMont = i + 1;
-        }
-        return maxSaleMont;
-    }
 
-    // Рассчитывает последний номер месяца с минимальной суммой продажи (вариант алгоритма - 2)
+    // Рассчитывает последний номер месяца с минимальной суммой продажи
     public int findLastMinSaleMonth(int[] monthlySales) {
         int minValue = monthlySales[0];
         int i = 0;
@@ -51,6 +49,17 @@ public class StatService {
     // Рассчитывает кол-во месяцев, в которых продажи были ниже среднего
     public int countLowSalesMonths(int[] monthlySales) {
         int averageSum = averageSumCalculate(monthlySales);
+        int countMinSales = 0;
+        for (int saleAmount : monthlySales) {
+            if (saleAmount < averageSum)
+                countMinSales++;
+        }
+        return countMinSales;
+    }
+
+    // Рассчитывает кол-во месяцев, в которых продажи были выше среднего
+    public int countHighSalesMonths(int[] monthlySales) {
+        int averageSum = averageSumCalculate(monthlySales);
         int countMaxSales = 0;
         for (int saleAmount : monthlySales) {
             if (saleAmount > averageSum)
@@ -59,15 +68,5 @@ public class StatService {
         return countMaxSales;
     }
 
-    // Рассчитывает кол-во месяцев, в которых продажи были выше среднего
-    public int countHighSalesMonths(int[] monthlySales) {
-        int averageSum = averageSumCalculate(monthlySales);
-        int countMinSales = 0;
-        for (int saleAmount : monthlySales) {
-            if (saleAmount > averageSum)
-                countMinSales++;
-        }
-        return countMinSales;
-    }
-
 }
+
